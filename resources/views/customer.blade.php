@@ -107,7 +107,32 @@
           <h3 class="text-xl sm:text-2xl font-black tracking-tight text-zinc-900">Featured Curation</h3>
           <button onclick="navigateStore('shop')" class="text-sm font-bold text-zinc-600 hover:text-black flex items-center gap-1">Explore All &rarr;</button>
         </div>
-        <div id="featuredGridContainer" class="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8"></div>
+        <div id="featuredGridContaine" class="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8">
+        @foreach ($products as $p)
+          <div class="group flex flex-col space-y-3 cursor-pointer product-card" 
+              data-id="{{ $p->id }}"
+              data-name="{{ $p->name }}"
+              data-price="{{ $p->price }}"
+              data-image="{{ asset($p->image_url) }}"
+              data-condition="{{ $p->condition_rating }}"
+              data-brand="{{ $p->brand }}"
+              data-size="{{ $p->size }}"
+              data-dimension="{{ $p->length . ' x ' . $p->width}}"
+              data-material="{{ $p->material }}"
+              data-defect="{{ $p->defect_notes }}"
+              data-description="{{ $p->description }}"
+              onclick="openProductDetailModal(this)">
+              
+            <div class="relative aspect-[4/5] bg-[#CBD5E1] rounded-3xl overflow-hidden">
+              <img src="{{ asset($p->image_url) }}" alt="{{ $p->name }}" class="w-full h-full object-cover">
+            </div>
+            <div>
+              <h4 class="font-bold text-base">{{ $p->name }}</h4>
+              <p class="font-extrabold text-sm">{{ rupiah($p->price) }}</p>
+            </div>
+          </div>
+        @endforeach
+        </div>
       </div>
     </section>
 
@@ -357,22 +382,22 @@
       document.getElementById('completedListContainer').innerHTML = completedOrders.map(o => `<div class="py-3 font-bold">${o.id} - ${o.name} (Completed)</div>`).join('') || '<p class="text-zinc-400 py-4">Tidak ada riwayat.</p>';
     }
 
-    function openProductDetailModal(id) {
-      const p = products.find(x => x.id === id);
-      if (!p) return;
-      selectedDetailProductId = id;
-      document.getElementById('detailImg').src = p.img;
-      document.getElementById('detailCondBadge').innerText = `Condition : ${p.condition}`;
-      document.getElementById('detailBrand').innerText = p.brand;
-      document.getElementById('detailName').innerText = p.name;
-      document.getElementById('detailPrice').innerText = formatRupiah(p.price);
-      document.getElementById('detailSize').innerText = p.size;
-      document.getElementById('detailDimension').innerText = p.dimension;
-      document.getElementById('detailMaterial').innerText = p.material;
-      document.getElementById('detailDefect').innerText = p.defect;
-      document.getElementById('detailDescription').innerText = p.description;
-      document.getElementById('modal-product-detail').classList.remove('hidden');
-    }
+  function openProductDetailModal(el) {
+    // Ambil data langsung dari data-* attributes HTML
+    document.getElementById('detailImg').src = el.dataset.image;
+    document.getElementById('detailCondBadge').innerText = `Condition : ${el.dataset.condition}`;
+    document.getElementById('detailBrand').innerText = el.dataset.brand;
+    document.getElementById('detailName').innerText = el.dataset.name;
+    document.getElementById('detailPrice').innerText = formatRupiah(el.dataset.price);
+    document.getElementById('detailSize').innerText = el.dataset.size;
+    document.getElementById('detailDimension').innerText = el.dataset.dimension;
+    document.getElementById('detailMaterial').innerText = el.dataset.material;
+    document.getElementById('detailDefect').innerText = el.dataset.defect;
+    document.getElementById('detailDescription').innerText = el.dataset.description;
+    
+    // Tampilkan modal
+    document.getElementById('modal-product-detail').classList.remove('hidden');
+  }
 
     function addFromModal() {
       if (selectedDetailProductId) { addToStoreCart(selectedDetailProductId); closeModal('modal-product-detail'); }

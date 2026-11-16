@@ -31,7 +31,7 @@
       <h1 class="text-3xl font-black tracking-tight text-zinc-900">T-THRIFT</h1>
       <span class="text-[11px] uppercase font-black tracking-widest bg-zinc-900 text-white px-3 py-1 rounded-md">Admin Portal</span>
     </div>
-    <a href="index.html" class="text-xs font-bold text-zinc-700 hover:text-black flex items-center gap-1.5 bg-white px-3.5 py-2 rounded-xl shadow-sm transition">
+    <a href="{{ route('customer.index') }}" class="text-xs font-bold text-zinc-700 hover:text-black flex items-center gap-1.5 bg-white px-3.5 py-2 rounded-xl shadow-sm transition">
       <i class="ph ph-shopping-bag-open text-base"></i>
       <span>Lihat Web Toko</span>
     </a>

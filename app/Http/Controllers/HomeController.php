@@ -6,13 +6,13 @@ use App\Models\Category;
 use Illuminate\Http\Request;
 use App\Models\Product;
 
-class CustomerController extends Controller
+class HomeController extends Controller
 {
     public function index()
     {
         $categories=Category::all();
-        $products=Product::with('category')->limit(3)->get();
-        
+        $products=Product::with('category')->limit(3)->latest()->get();
+        // dd($products);
         return view('customer',compact("categories","products"));
     }
 }
