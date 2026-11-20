@@ -75,6 +75,14 @@
       <!-- Cart, Profile, & Admin Link -->
       <div class="flex items-center space-x-3">
         @auth
+            <form method="POST" action="{{ route('logout') }}">
+            @csrf
+                <a href="{{route('logout')}}"onclick="event.preventDefault();
+                this.closest('form').submit();" class="w-full bg-[#dcdde1] hover:bg-zinc-300 text-zinc-800 font-bold py-3.5 px-4 rounded-2xl text-sm transition text-center shadow-sm">
+                    Log Out
+                </a>
+            </form>
+            
           @if(auth()->user()->role === 'admin')
             <a href="{{ url('/admin') }}" class="hidden md:flex items-center gap-1.5 px-3 py-1.5 bg-zinc-100 hover:bg-zinc-200 text-zinc-800 text-xs font-bold rounded-xl border border-zinc-300 transition">
               <i class="ph ph-chart-pie-slice text-sm"></i>

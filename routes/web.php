@@ -16,9 +16,7 @@ Route::redirect('/', '/login');
 //     return view('dashboard');
 // })->middleware(['auth', 'verified'])->name('dashboard');
 
-Route::middleware([
-    'auth',
-    'role:admin'])->group(function () {
+Route::middleware(['auth','role:admin'])->group(function () {
 Route::get("/customer",[HomeController::class,"index"] )->name("customer.index");
 
 Route::get("/admin",[AdminPortalController::class,"index"] )->name("admin.index");
@@ -28,14 +26,18 @@ Route::get('/admin/products/{id}/edit', [AdminPortalController::class, 'edit'])
     ->name('admin.product.edit');
 Route::put('/admin/products/{id}', [AdminPortalController::class, 'update'])
     ->name('admin.product.update');
+
+    
 });
 
 Route::middleware([
     'auth',
-    'role:customer'])->group(function () {
+    'role:admin,customer'])->group(function () {
 Route::get("/customer",[HomeController::class,"index"] )->name("customer.index");
 
 Route::get("/cart",[CartController::class,"index"] )->name("cart.index");
+Route::post("/cart/add",[CartController::class,"add"] )->name("cart.add");
+Route::delete("/cart/{id}/remove",[CartController::class,"remove"] )->name("cart.remove");
 
 });
 

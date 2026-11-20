@@ -61,14 +61,13 @@
           </button>
         </nav>
       </div>
-                        <form method="POST" action="{{ route('logout') }}">
-                            @csrf
-<a href="{{route('logout')}}"onclick="event.preventDefault();
-                                                this.closest('form').submit();" class="w-full bg-[#dcdde1] hover:bg-zinc-300 text-zinc-800 font-bold py-3.5 px-4 rounded-2xl text-sm transition text-center shadow-sm">
-        Log Out
-</a>
-                        </form>
-      
+      <form method="POST" action="{{ route('logout') }}">
+        @csrf
+          <a href="{{route('logout')}}"onclick="event.preventDefault();
+            this.closest('form').submit();" class="w-full bg-[#dcdde1] hover:bg-zinc-300 text-zinc-800 font-bold py-3.5 px-4 rounded-2xl text-sm transition text-center shadow-sm">
+              Log Out
+          </a>
+      </form>
     </aside>
 
     <!-- MAIN CONTENT -->
