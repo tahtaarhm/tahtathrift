@@ -13,7 +13,7 @@ class HomeController extends Controller
         $categories=Category::all();
         $products=Product::with('category')->limit(3)->latest()->get();
         // dd($products);
-        return view('customer',compact("categories","products"));
+        return view('index',compact("categories","products"));
     }
 }
 
