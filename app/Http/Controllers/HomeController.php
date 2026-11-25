@@ -11,7 +11,7 @@ class HomeController extends Controller
     public function index()
     {
         $categories=Category::all();
-        $products=Product::with('category')->limit(3)->latest()->get();
+        $products=Product::with('category')->where('status', 'in_stock')->limit(3)->latest()->get();
         // dd($products);
         return view('index',compact("categories","products"));
     }

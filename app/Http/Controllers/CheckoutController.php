@@ -16,10 +16,12 @@ class CheckoutController extends Controller
 {
     public function __construct()
     {
-        Config::$serverKey = config('services.midtrans.server_key');
-        Config::$isProduction = (bool) config('services.midtrans.is_production', false);
-        Config::$isSanitized = (bool) config('services.midtrans.is_sanitized', true);
-        Config::$is3ds = (bool) config('services.midtrans.is_3ds', true);
+        Config::$serverKey    = config('midtrans.serverKey');
+        Config::$isProduction = config('midtrans.isProduction');
+        Config::$isSanitized  = config('midtrans.isSanitized');
+        Config::$is3ds        = config('midtrans.is3ds');
+
+        // dd(Config::$serverKey);
     }
 
     public function checkout(Request $request)
@@ -214,9 +216,10 @@ class CheckoutController extends Controller
 
     private function markProductsSold(Order $order): void
     {
+
         foreach ($order->items as $item) {
             Product::where('id', $item->product_id)->update([
-                'status' => 'sold',
+                'status' => 'sold_out',
             ]);
         }
     }
