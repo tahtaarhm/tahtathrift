@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Order;
-use App\Models\OrderItem;
+use App\Models\OrderItems;
 use App\Models\Product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -85,7 +85,7 @@ class CheckoutController extends Controller
                 ]);
 
                 foreach ($itemsData as $row) {
-                    OrderItem::create([
+                    OrderItems::create([
                         'order_id' => $order->id,
                         'product_id' => $row['product_id'],
                         'quantity' => $row['quantity'],
@@ -126,11 +126,11 @@ class CheckoutController extends Controller
             return response()->json([
                 'message' => $e->getMessage(),
             ], 422);
-        } catch (\Throwable $e) {
+        } catch (\Exception $e) {
             report($e);
 
             return response()->json([
-                'message' => 'Gagal memproses pembayaran Midtrans.',
+                'message' => $e->getMessage(),
             ], 500);
         }
     }
