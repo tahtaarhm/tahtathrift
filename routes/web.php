@@ -6,6 +6,7 @@ use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Admin\AdminPortalController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\CartController;
+use App\Http\Controllers\CheckoutController;
 
 Route::redirect('/', '/login');
 // Route::get('/', function () {
@@ -28,17 +29,18 @@ Route::put('/admin/products/{id}', [AdminPortalController::class, 'update'])
     ->name('admin.product.update');
 
     
+
+    
 });
 
-Route::middleware([
-    'auth',
-    'role:admin,customer'])->group(function () {
+Route::middleware('auth')->group(function () {
 Route::get("/customer",[HomeController::class,"index"] )->name("customer.index");
 
 Route::get("/cart",[CartController::class,"index"] )->name("cart.index");
 Route::post("/cart/add",[CartController::class,"add"] )->name("cart.add");
 Route::delete("/cart/{id}/remove",[CartController::class,"remove"] )->name("cart.remove");
-
+Route::post('/checkout', [CheckoutController::class, 'checkout'])->name('checkout.process');
+Route::post('/checkout/paid', [CheckoutController::class, 'markPaidFromClient'])->name('checkout.paid');
 });
-
+Route::post('/midtrans/callback', [CheckoutController::class, 'callback'])->name('midtrans.callback');
 require __DIR__.'/auth.php';
